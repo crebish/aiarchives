@@ -9,7 +9,7 @@ export async function parseGemini(html: string): Promise<Conversation> {
   const dom = new JSDOM(html);
   const document = dom.window.document;
 
-  const chatHistory = document.querySelector('[data-test-id="chat-history-container"]').innerHTML;
+  const chatHistory = document.querySelector('[data-test-id="chat-history-container"]')?.innerHTML ?? '';
 
   return {
     model: 'Gemini',
