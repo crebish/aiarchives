@@ -12,7 +12,11 @@ export async function parseGemini(html: string): Promise<Conversation> {
   const styleTags = document.head.querySelectorAll('style');
   let combinedStyles = '';
   
+  let first = true;
   styleTags.forEach(styleTag => {
+    if (first) {
+      styleTag.textContent = "html{overflow:scroll}" + styleTag.textContent;
+    }
     combinedStyles += styleTag.outerHTML + '\n';
   });
 
