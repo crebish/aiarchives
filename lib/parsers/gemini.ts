@@ -22,7 +22,7 @@ export async function parseGemini(html: string): Promise<Conversation> {
   style.textContent = combinedStyles;
 
   // Remove all misc elements
-  const miscElems = document.querySelectorAll('sources-list, mat-icon, [class*="actions-container-v2"]');
+  const miscElems = document.querySelectorAll('sources-list, mat-icon, [class*="actions-container-v2"], [class*="source-inline-chip-container"]');
   miscElems.forEach(element => element.remove());
 
   // Grab the chat history container
@@ -30,6 +30,12 @@ export async function parseGemini(html: string): Promise<Conversation> {
 
   // Add the styling to the container
   if (chatHistory !== null) {
+    // Add body document styling that was removed
+    const children = chatHistory.children;
+    for (const child of children) {
+      child.classList.add('theme-host', 'light-theme');
+    }
+
     chatHistory.prepend(style);
   }
 
