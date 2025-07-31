@@ -87,9 +87,6 @@ export async function POST(req: NextRequest) {
       };
     }
 
-    console.log('conversation =>', conversation.model, conversation.content);
-
-
     // Generate a unique ID for the conversation
     const conversationId = randomUUID();
 
