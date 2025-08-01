@@ -22,7 +22,7 @@ export async function parseGemini(html: string): Promise<Conversation> {
   style.textContent = combinedStyles;
 
   // Remove all misc elements
-  const miscElems = document.querySelectorAll('sources-list, mat-icon, [class*="actions-container-v2"], [class*="source-inline-chip-container"]');
+  const miscElems = document.querySelectorAll('sources-list, mat-icon, [class*="actions-container-v2"], [class*="source-inline-chip-container"], [class*="class-thoughts"]');
   miscElems.forEach(element => element.remove());
 
   // Grab the chat history container

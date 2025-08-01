@@ -79,11 +79,14 @@ export async function POST(req: NextRequest) {
     if (!skipScraping) {
       conversation = await parseHtmlToConversation(html, model);
     } else {
+      // Remove CSS rule from the HTML string
+      const cleanedHtml = html.replace(/body\s*\{[^}]*\}/gm, '');
+
       conversation = {
         model: model,
-        content: html,
+        content: cleanedHtml,
         scrapedAt: new Date().toISOString(),
-        sourceHtmlBytes: html.length,
+        sourceHtmlBytes: cleanedHtml.length,
       };
     }
 
