@@ -81,7 +81,6 @@ export async function POST(req: NextRequest) {
     } else {
       // Remove CSS rule from the HTML string
       const cleanedHtml = html.replace(/body\s*\{[^}]*\}/gm, '');
-
       conversation = {
         model: model,
         content: cleanedHtml,
@@ -89,7 +88,7 @@ export async function POST(req: NextRequest) {
         sourceHtmlBytes: cleanedHtml.length,
       };
     }
-
+  
     // Generate a unique ID for the conversation
     const conversationId = randomUUID();
 
