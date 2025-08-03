@@ -61,7 +61,7 @@ export async function OPTIONS() {
 export async function POST(req: NextRequest) {
   try {
     // Initialize services on first request
-    // await ensureInitialized();
+    await ensureInitialized();
 
     const formData = await req.formData();
     const file = formData.get('htmlDoc');
@@ -88,36 +88,36 @@ export async function POST(req: NextRequest) {
         sourceHtmlBytes: cleanedHtml.length,
       };
     }
-    console.log('conversation =>', conversation.model, conversation.content);
+
     // Generate a unique ID for the conversation
-    // const conversationId = randomUUID();
+    const conversationId = randomUUID();
 
-    // // Store only the conversation content in S3
-    // const contentKey = await s3Client.storeConversation(conversationId, conversation.content);
+    // Store only the conversation content in S3
+    const contentKey = await s3Client.storeConversation(conversationId, conversation.content);
 
-    // // Create the database record with metadata
-    // const dbInput: CreateConversationInput = {
-    //   model: conversation.model,
-    //   scrapedAt: new Date(conversation.scrapedAt),
-    //   sourceHtmlBytes: conversation.sourceHtmlBytes,
-    //   views: 0,
-    //   contentKey,
-    // };
+    // Create the database record with metadata
+    const dbInput: CreateConversationInput = {
+      model: conversation.model,
+      scrapedAt: new Date(conversation.scrapedAt),
+      sourceHtmlBytes: conversation.sourceHtmlBytes,
+      views: 0,
+      contentKey,
+    };
 
-    // const record = await createConversationRecord(dbInput);
+    const record = await createConversationRecord(dbInput);
 
-    // // Generate the permalink using the database-generated ID
-    // const permalink = `${process.env.NEXT_PUBLIC_BASE_URL}/conversation/${record.id}`;
+    // Generate the permalink using the database-generated ID
+    const permalink = `${process.env.NEXT_PUBLIC_BASE_URL}/conversation/${record.id}`;
 
-    // return NextResponse.json(
-    //   { url: permalink },
-    //   {
-    //     status: 201,
-    //     headers: {
-    //       'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-    //     },
-    //   }
-    // );
+    return NextResponse.json(
+      { url: permalink },
+      {
+        status: 201,
+        headers: {
+          'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
+        },
+      }
+    );
   } catch (err) {
     console.error('Error processing conversation:', err);
     return NextResponse.json({ error: 'Internal error, see logs' }, { status: 500 });
