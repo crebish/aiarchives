@@ -67,5 +67,12 @@ chrome.tabs.query({ active: true, currentWindow: true, url: 'https://chat.deepse
     });
   }
 });
+chrome.tabs.query({ active: true, currentWindow: true, url: 'https://copilot.microsoft.com/*' }, (tabs) => {
+  if (tabs?.length) {
+    chrome.tabs.sendMessage(tabs[0].id, { action: 'model', model: 'copilot' }, function (_) {
+      console.log('is Copilot');
+    });
+  }
+});
 
 window.onload = initApp;

@@ -12,7 +12,11 @@ export async function parseDeepSeek(html: string): Promise<Conversation> {
   const dom = new JSDOM(html);
   const document = dom.window.document;
 
-  // 1. Inject <style> from deepseek.css
+  // Clean up elements first
+  const miscElems = document.querySelectorAll('button');
+  miscElems.forEach(button => button.remove());
+
+  // Inject <style> from deepseek.css
   const cssPath = path.resolve(process.cwd(), 'lib/parsers/assets/deepseek.css');
   const css = fs.readFileSync(cssPath, 'utf-8');
 
@@ -20,19 +24,19 @@ export async function parseDeepSeek(html: string): Promise<Conversation> {
   styleTag.textContent = css;
   document.head.appendChild(styleTag);
 
-  // 2. Clean up icons and extra UI elements
+  // Clean up icons and extra UI elements
   const iconSelectors = ['.ds-icon-button'];
   iconSelectors.forEach(selector => {
     document.querySelectorAll(selector).forEach(el => el.remove());
   });
 
-  // 3. Grab main conversation container
+  // Grab main conversation container
   const chatContainer = document.querySelector('div.dad65929');
   if (!chatContainer) {
     throw new Error('Conversation container not found');
   }
 
-  // 4. Prepare the final HTML output
+  // Prepare the final HTML output
   const htmlContent = `
     <html>
       <head>${document.head.innerHTML}</head>

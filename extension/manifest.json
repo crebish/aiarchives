@@ -14,7 +14,8 @@
     "https://gemini.google.com/*",
     "https://chatgpt.com/*",
     "https://chat.openai.com/*",
-    "https://chat.deepseek.com/*"
+    "https://chat.deepseek.com/*",
+    "https://copilot.microsoft.com/*"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
@@ -28,7 +29,8 @@
         "https://gemini.google.com/*",
         "https://claude.ai/*",
         "https://www.meta.ai/*",
-        "https://chat.deepseek.com/*"
+        "https://chat.deepseek.com/*",
+        "https://copilot.microsoft.com/*"
       ],
       "js": ["config.js", "index.js"],
       "run_at": "document_end",
